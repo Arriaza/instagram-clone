@@ -1,26 +1,41 @@
-import { Box, Flex, Text, VStack } from "@chakra-ui/react"
+import { Box, Flex, Spinner, Text, VStack } from "@chakra-ui/react"
 import SuggestedHeader from "./SuggestedHeader"
 import SuggestedUser from "./SuggestedUser"
 import { Link } from "react-router-dom"
+import useGetSuggestedUsers from "../../hooks/useGetSuggestedUsers";
+import useSearchUser from "../../hooks/useSearchUser";
 
 const SuggestedUsers = () => {
+  const { isLoading, suggestedUsers } = useGetSuggestedUsers()
+  const { setUser } = useSearchUser()
+
+  if (isLoading ) {
+    return (
+      <Flex justify="center" align="center" h="300px">
+        <Spinner  thickness="2px" speed="0.65s" emptyColor="gray.200" color="blue.500" size="xl" />
+      </Flex>
+    )
+  }
+
   return (
     <VStack py={8} px={6} gap={4}>
       <SuggestedHeader />
 
-      <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"} >
-        <Text fontSize={12} fontWeight={"bold"} color={"gray.500"}>
-          Suggested for you
-        </Text>
+      {suggestedUsers.length !== 0 && (
+        <Flex alignItems={"center"} justifyContent={"space-between"} w={"full"} >
+          <Text fontSize={12} fontWeight={"bold"} color={"gray.500"}>
+            Suggested for you
+          </Text>
 
-        <Text fontSize={12} fontWeight={"bold"} _hover={{ color: "gray.400" }} cursor={"pointer"}>
-          See All
-        </Text>
-      </Flex>
+          <Text fontSize={12} fontWeight={"bold"} _hover={{ color: "gray.400" }} cursor={"pointer"}>
+            See All
+          </Text>
+        </Flex>
+      )}
 
-      <SuggestedUser name="Dan Abrahmov" followers={1392} avatar="https://bit.ly/dan-abramov" />
-      <SuggestedUser name="Ryan Florence" followers={567} avatar="https://bit.ly/ryan-florence" />
-      <SuggestedUser name="Christian Nwamba" followers={759} avatar="https://bit.ly/code-beast" />
+      {suggestedUsers.map(user => (
+        <SuggestedUser key={user.id} user={user} setUser={setUser} />
+      ))}
 
       <Box fontSize={12} color={"gray.500"} mt={5} alignSelf={"start"}>
         © 2024 Built By{" "}
