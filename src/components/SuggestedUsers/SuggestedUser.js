@@ -7,6 +7,10 @@ const SuggestedUser = ({ user, setUser }) => {
   const { isFollowing, isUpdating, handleFollowUser } = useFollowUser(user.uid)
   const authUser = useAuthStore(state => state.user)
 
+  if (!authUser) {
+    return null
+  }
+
   const onFollowUser = async () => {
     await handleFollowUser()
     setUser({
