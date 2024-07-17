@@ -1,5 +1,3 @@
-# instagram-clone
-This is a clone of Instagram, it was made with React and Firebase
 # Instagram Clone
 
 This is an exciting Instagram clone project developed with React and Firebase. It offers a similar experience to the original platform, allowing users to share images, follow other users, like posts, and more.
